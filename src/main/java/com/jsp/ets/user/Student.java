@@ -1,0 +1,29 @@
+package com.jsp.ets.user;
+
+import java.time.Year;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Getter;
+@Entity
+@Table(name = "students")
+@Getter
+public class Student extends User{
+	@Column(name = "degree")
+	private String degree;
+	@Column(name = "stream")
+	private String stream;
+	@Column(name = "yop")
+	private Year yop;
+	@Column(name = "degree_percentage")
+	private Double degreePercentage;
+	@Column(name = "twelfth_percentage")
+	private Double twelfthPercentage;
+	@Column(name = "tenth_percentage")
+	private Double tenthPercentage;
+	
+	
+	
+
+}
