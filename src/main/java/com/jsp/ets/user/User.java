@@ -6,6 +6,8 @@ import com.jsp.ets.config.GenerateSequenceId;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -34,6 +36,7 @@ public class User {
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 	@Column(name = "role")
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
 	
