@@ -3,6 +3,7 @@ package com.jsp.ets.user;
 import org.springframework.stereotype.Service;
 
 import com.jsp.ets.mapper.UserMapper;
+import com.jsp.ets.security.RegistrationRequest;
 
 import lombok.AllArgsConstructor;
 
@@ -13,7 +14,7 @@ public class UserService {
 	private UserRepository userRepo;
 	private UserMapper userMapper;
 
-	public UserResponse saveUser(UserRequest userRequest, UserRole role) {
+	public UserResponse saveUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = null;
 		switch (role) {
 		case ADMIN -> user = new Admin();
@@ -24,7 +25,7 @@ public class UserService {
 		}
 		
 		if(user != null) {
-			user = userMapper.mapToUserEntity(userRequest, user);
+			user = userMapper.mapToUserEntity(registrationRequest, user);
 			user.setRole(role);
 			user = userRepo.save(user);
 		}

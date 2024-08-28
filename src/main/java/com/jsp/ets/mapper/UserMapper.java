@@ -2,6 +2,7 @@ package com.jsp.ets.mapper;
 
 import org.springframework.stereotype.Component;
 
+import com.jsp.ets.security.RegistrationRequest;
 import com.jsp.ets.user.User;
 import com.jsp.ets.user.UserRequest;
 import com.jsp.ets.user.UserResponse;
@@ -9,10 +10,10 @@ import com.jsp.ets.user.UserResponse;
 @Component
 public class UserMapper {
 	
-	public User mapToUserEntity(UserRequest userRequest, User user) {
-		user.setUsername(userRequest.getUsername());
-		user.setEmail(userRequest.getEmail());
-		user.setPassword(userRequest.getPassword());
+	public User mapToUserEntity(RegistrationRequest registrationRequest, User user) {
+		user.setUsername(registrationRequest.getUsername());
+		user.setEmail(registrationRequest.getEmail());
+		user.setPassword(registrationRequest.getPassword());
 		return user;
 	}
 
