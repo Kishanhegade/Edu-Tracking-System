@@ -55,7 +55,7 @@ public class UserService {
 			default -> throw new IllegalArgumentException("Unexpected value: " + role);
 			}
 		}else {
-			return null;
+			throw new UserNotFoundByIdException("Failed to update User");
 		}
 	}
 
