@@ -2,7 +2,9 @@ package com.jsp.ets.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,8 +44,19 @@ public class UserController {
 	
 	@PostMapping("/students")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody @Valid RegistrationRequest registrationRequest) {
-		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.TRAINER);
+		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.STUDENT);
 		return builder.success(HttpStatus.CREATED, "Student created", userResponse);
 	}
+	
+	@PutMapping("/students/{userId}")
+	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudent(@RequestBody @Valid StudentRequest studentRequest, @PathVariable String userId) {
+		StudentResponse studentResponse = (StudentResponse)userService.updateUser(studentRequest, userId, UserRole.STUDENT);
+		return builder.success(HttpStatus.OK, "Student updated", studentResponse);
+	}
 
+	@PutMapping("/trainers/{userId}")
+	public ResponseEntity<ResponseStructure<TrainerResponse>> updateTrainer(@RequestBody @Valid TrainerRequest trainerRequest, @PathVariable String userId) {
+		TrainerResponse trainserResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId, UserRole.TRAINER);
+		return builder.success(HttpStatus.OK, "Trainer updated", trainerResponse);
+	} 
 }

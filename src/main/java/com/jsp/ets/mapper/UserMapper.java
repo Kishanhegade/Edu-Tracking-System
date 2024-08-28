@@ -3,8 +3,10 @@ package com.jsp.ets.mapper;
 import org.springframework.stereotype.Component;
 
 import com.jsp.ets.security.RegistrationRequest;
+import com.jsp.ets.user.Student;
+import com.jsp.ets.user.StudentRequest;
+import com.jsp.ets.user.StudentResponse;
 import com.jsp.ets.user.User;
-import com.jsp.ets.user.UserRequest;
 import com.jsp.ets.user.UserResponse;
 
 @Component
@@ -28,4 +30,33 @@ public class UserMapper {
 		return response;
 	}
 
+	public Student mapToStudentEntity(StudentRequest studentRequest, Student student) {
+		
+		student.setEmail(studentRequest.getEmail());
+		student.setUsername(studentRequest.getUsername());
+		student.setDegree(studentRequest.getDegree());
+		student.setStream(studentRequest.getStream());
+		student.setTwelfthPercentage(studentRequest.getTwelfthPercentage());
+		student.setTenthPercentage(studentRequest.getTenthPercentage());
+		student.setDegreePercentage(studentRequest.getDegreePercentage());
+		student.setYop(studentRequest.getYop());
+		return student;
+	}
+
+
+
+	public StudentResponse mapToStudentResponse(Student student) {
+		StudentResponse response = new StudentResponse();
+		response.setUsername(student.getUsername());
+		response.setRole(student.getRole());
+		response.setEmail(student.getEmail());
+		response.setUserId(student.getUserId());
+		response.setDegree(student.getDegree());
+		response.setStream(student.getStream());
+		response.setTenthPercentage(student.getTenthPercentage());
+		response.setTwelfthPercentage(student.getTwelfthPercentage());
+		response.setDegreePercentage(student.getDegreePercentage());
+		response.setYop(student.getYop());
+		return response;
+	}
 }

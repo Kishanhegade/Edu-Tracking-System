@@ -2,9 +2,13 @@ package com.jsp.ets.user;
 
 import java.time.Year;
 
-public class StudentResponse {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class StudentResponse extends UserResponse{
 	
-	private String username;
 	private String degree;
 	private String stream;
 	private Year yop;
