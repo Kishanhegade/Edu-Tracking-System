@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import com.jsp.ets.user.User;
 import com.jsp.ets.user.UserRequest;
 import com.jsp.ets.user.UserResponse;
-import com.jsp.ets.user.UserRole;
 
 @Component
 public class UserMapper {
@@ -14,7 +13,6 @@ public class UserMapper {
 		user.setUsername(userRequest.getUsername());
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(userRequest.getPassword());
-		user.setRole(UserRole.ADMIN);
 		return user;
 	}
 
