@@ -56,7 +56,7 @@ public class UserController {
 
 	@PutMapping("/trainers/{userId}")
 	public ResponseEntity<ResponseStructure<TrainerResponse>> updateTrainer(@RequestBody @Valid TrainerRequest trainerRequest, @PathVariable String userId) {
-		TrainerResponse trainserResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId, UserRole.TRAINER);
+		TrainerResponse trainerResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId, UserRole.TRAINER);
 		return builder.success(HttpStatus.OK, "Trainer updated", trainerResponse);
 	} 
 }

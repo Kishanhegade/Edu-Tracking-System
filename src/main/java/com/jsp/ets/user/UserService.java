@@ -46,6 +46,12 @@ public class UserService {
 				student = userRepo.save(student);
 				return userMapper.mapToStudentResponse(student);
 			}
+			case TRAINER -> {
+				Trainer trainer = (Trainer) optional.get();
+				trainer = userMapper.mapToTrainerEntity((TrainerRequest)userRequest, trainer);
+				trainer = userRepo.save(trainer);
+				return userMapper.mapToTrainerResponse(trainer);
+			}
 			default -> throw new IllegalArgumentException("Unexpected value: " + role);
 			}
 		}else {
