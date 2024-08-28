@@ -2,6 +2,9 @@ package com.jsp.ets.user;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import com.jsp.ets.config.GenerateSequenceId;
 
 import jakarta.persistence.Column;
@@ -32,9 +35,11 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	@Column(name = "created_date")
+	@CreatedDate
 	private LocalDateTime createdDate;
-	@Column(name = "created_at")
-	private LocalDateTime createdAt;
+	@Column(name = "modified_date")
+	@LastModifiedDate
+	private LocalDateTime modifiedDate;
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
 	private UserRole role;

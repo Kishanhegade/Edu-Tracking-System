@@ -11,17 +11,23 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequest {
-	@NotNull(message = "Username is mandatory")
-	@Pattern(regexp = "^[a-zA-Z0-9#$&*\\-_.!@]+$", message = "Invalid username format")
+//	@NotNull(message = "Username is mandatory")
+//	@Pattern(regexp = "^[a-zA-Z0-9#$&*\\-_.!@]+$", message = "Invalid username format")
+//	private String username;
+//	 @Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "Email should be a valid Gmail address")
+//	private String email;
+//	 @NotBlank(message = "Password is mandatory")
+//	 @Size(min = 8, message = "Password must be at least 8 characters long")
+//	 @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$^&*._-]).{8,}$",
+//	            message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character")
+//	private String password;
+	
+	@NotNull(message = "username cannot be null")
 	private String username;
-	 @Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "Email should be a valid Gmail address")
+	@Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "Invalid Email, the email should end with @gmail.com")
 	private String email;
-	 @NotBlank(message = "Password is mandatory")
-	 @Size(min = 8, message = "Password must be at least 8 characters long")
-	 @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$^&*._-]).{8,}$",
-	            message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Invalid Password, the password should have atleast one uppercase,lowercase, numeric and special character")
 	private String password;
-	private UserRole role;
 	
 	
 
