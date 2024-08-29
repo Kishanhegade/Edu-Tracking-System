@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.jsp.ets.user.UserNotFoundByIdException;
+import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.utility.AppResponseBuilder;
 import com.jsp.ets.utility.ErrorStructure;
 

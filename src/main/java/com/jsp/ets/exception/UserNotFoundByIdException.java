@@ -1,4 +1,4 @@
-package com.jsp.ets.user;
+package com.jsp.ets.exception;
 
 import lombok.AllArgsConstructor;
 
