@@ -1,11 +1,15 @@
 package com.jsp.ets.user;
 
 import java.time.Year;
+import java.util.List;
+
+import com.jsp.ets.rating.Rating;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +40,8 @@ public class Student extends User{
 	@Enumerated(EnumType.STRING)
 	private Stack stack;
 	
+	@OneToMany(mappedBy = "student")
+	private List<Rating> ratings;
 	
 	
 
