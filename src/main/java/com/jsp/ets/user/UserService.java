@@ -59,5 +59,18 @@ public class UserService {
 		}
 	}
 
+	public StudentResponse updateStudentStack(String userId, String stack) {
+		Optional<User> optional = userRepo.findById(userId);
+		if(optional.isPresent()) {
+			Student student = (Student) optional.get();
+			student.setStack(Stack.valueOf(stack));
+			student = userRepo.save(student);
+			return userMapper.mapToStudentResponse(student);
+			
+		} else {
+			throw new UserNotFoundByIdException("Failed to update Stack");
+		}
+	}
+
 
 }

@@ -2,10 +2,12 @@ package com.jsp.ets.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jsp.ets.security.RegistrationRequest;
@@ -59,4 +61,10 @@ public class UserController {
 		TrainerResponse trainerResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId, UserRole.TRAINER);
 		return builder.success(HttpStatus.OK, "Trainer updated", trainerResponse);
 	} 
+	
+	@PatchMapping("/students/{userId}")
+	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudentStack(@RequestParam String stack, @PathVariable String userId) {
+		StudentResponse studentResponse = (StudentResponse)userService.updateStudentStack(userId, stack);
+		return builder.success(HttpStatus.OK, "Student stack updated", studentResponse);
+	}
 }

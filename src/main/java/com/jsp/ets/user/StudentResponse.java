@@ -2,6 +2,8 @@ package com.jsp.ets.user;
 
 import java.time.Year;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,8 @@ public class StudentResponse extends UserResponse{
 	private Double degreePercentage;
 	private Double twelfthPercentage;
 	private Double tenthPercentage;
+	@Enumerated(EnumType.STRING)
+	private Stack stack;
 
 
 }

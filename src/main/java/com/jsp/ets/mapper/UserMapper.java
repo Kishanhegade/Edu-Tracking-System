@@ -30,6 +30,8 @@ public class UserMapper {
 		response.setUsername(user.getUsername());
 		response.setEmail(user.getEmail());
 		response.setRole(user.getRole());
+		response.setCreatedDate(user.getCreatedDate());
+		response.setModifiedDate(user.getModifiedDate());
 		return response;
 	}
 
@@ -42,7 +44,6 @@ public class UserMapper {
 		student.setTwelfthPercentage(studentRequest.getTwelfthPercentage());
 		student.setTenthPercentage(studentRequest.getTenthPercentage());
 		student.setDegreePercentage(studentRequest.getDegreePercentage());
-		student.setYop(studentRequest.getYop());
 		return student;
 	}
 
@@ -60,6 +61,9 @@ public class UserMapper {
 		response.setTwelfthPercentage(student.getTwelfthPercentage());
 		response.setDegreePercentage(student.getDegreePercentage());
 		response.setYop(student.getYop());
+		response.setStack(student.getStack());
+		response.setCreatedDate(student.getCreatedDate());
+		response.setModifiedDate(student.getModifiedDate());
 		return response;
 	}
 
