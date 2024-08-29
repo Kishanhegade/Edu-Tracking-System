@@ -1,10 +1,10 @@
 package com.jsp.ets.user;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 
 import com.jsp.ets.exception.IllegalStackTypeException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
@@ -13,7 +13,6 @@ import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
 import com.jsp.ets.security.RegistrationRequest;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -23,7 +22,8 @@ public class UserService {
 	private UserRepository userRepo;
 	private UserMapper userMapper;
 	private RatingRepository ratingRepo;
-
+	
+	
 	public UserResponse saveUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = null;
 		switch (role) {
@@ -87,6 +87,8 @@ public class UserService {
 	    userRepo.save(student);
 	    return userMapper.mapToStudentResponse(student);
 	}
+
+	
 
 
 }

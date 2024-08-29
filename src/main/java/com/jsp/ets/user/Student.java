@@ -45,7 +45,7 @@ public class Student extends User{
 	@OneToMany(mappedBy = "student")
 	private List<Rating> ratings;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "students")
 	private List<Batch> batches;
 	
 	

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jsp.ets.batch.BatchRequest;
+import com.jsp.ets.batch.BatchResponse;
 import com.jsp.ets.security.RegistrationRequest;
 import com.jsp.ets.utility.AppResponseBuilder;
 import com.jsp.ets.utility.ResponseStructure;
@@ -67,4 +69,6 @@ public class UserController {
 		StudentResponse studentResponse = (StudentResponse)userService.updateStudentStack(userId, stack);
 		return builder.success(HttpStatus.OK, "Student stack updated", studentResponse);
 	}
+	
+	
 }
