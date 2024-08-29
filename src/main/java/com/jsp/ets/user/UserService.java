@@ -67,32 +67,25 @@ public class UserService {
 	}
 
 	public StudentResponse updateStudentStack(String userId, String stack) {
-		// Retrieve the student or throw an exception if not found
-		Student student = (Student) userRepo.findById(userId)
-				.orElseThrow(() -> new UserNotFoundByIdException("Failed to update Stack"));
+	    Student student = (Student) userRepo.findById(userId)
+	            .orElseThrow(() -> new UserNotFoundByIdException("Failed to update Stack"));
 
-		// Attempt to parse the stack value or throw an exception if invalid
-		Stack techStack = Arrays.stream(Stack.values())
-				.filter(s -> s.name().equalsIgnoreCase(stack))
-				.findFirst()
-				.orElseThrow(() -> new IllegalStackTypeException("Stack not found"));
+	    Stack techStack = Arrays.stream(Stack.values())
+	            .filter(s -> s.name().equalsIgnoreCase(stack))
+	            .findFirst()
+	            .orElseThrow(() -> new IllegalStackTypeException("Stack not found"));
 
-		// Set the student's stack and save associated ratings for each subject
-		student.setStack(techStack);
-		List<Subject> subjects = techStack.getSubjects();
+	    student.setStack(techStack);
 
-		for (Subject subject : subjects) {
-			Rating rating = new Rating();
-			rating.setStudent(student);
-			rating.setSubject(subject);
-			ratingRepo.save(rating);
-		}
+	    techStack.getSubjects().forEach(subject -> {
+	        Rating rating = new Rating();
+	        rating.setStudent(student);
+	        rating.setSubject(subject);
+	        ratingRepo.save(rating);
+	    });
 
-		// Save the updated student and return the response
-		student = userRepo.save(student);
-		return userMapper.mapToStudentResponse(student);
-
-
+	    userRepo.save(student);
+	    return userMapper.mapToStudentResponse(student);
 	}
 
 

@@ -6,6 +6,8 @@ import com.jsp.ets.user.Subject;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -25,6 +27,7 @@ public class Rating {
 	private String ratingId;
 	
 	@Column(name = "subject")
+	@Enumerated(EnumType.STRING)
 	private Subject subject;
 	
 	@Column(name="rating")
@@ -35,7 +38,7 @@ public class Rating {
 	@Column(name="feedback")
 	private String feedback;
 	
-	@Column(name="student")
+	
 	@ManyToOne
 	private Student student;
 }
