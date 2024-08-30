@@ -11,8 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +29,6 @@ public class Rating {
 	private Subject subject;
 	
 	@Column(name="rating")
-	@Min(1)
-	@Max(5)
 	private Integer rating;
 	
 	@Column(name="feedback")

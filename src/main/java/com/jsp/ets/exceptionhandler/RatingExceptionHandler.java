@@ -5,20 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.jsp.ets.exception.UserNotFoundByIdException;
+import com.jsp.ets.exception.RatingNotFoundByIdException;
 import com.jsp.ets.utility.AppResponseBuilder;
 import com.jsp.ets.utility.ErrorStructure;
 
-import lombok.AllArgsConstructor;
-
 @RestControllerAdvice
-@AllArgsConstructor
-public class UserExceptionHandler {
+public class RatingExceptionHandler {
+private AppResponseBuilder builder;
 	
-	private AppResponseBuilder builder;
-	
-	@ExceptionHandler(UserNotFoundByIdException.class)
-	public ResponseEntity<ErrorStructure<String>> handleUserNotFoundById(UserNotFoundByIdException ex) {
+	@ExceptionHandler(RatingNotFoundByIdException.class)
+	public ResponseEntity<ErrorStructure<String>> handleUserNotFoundById(RatingNotFoundByIdException ex) {
 		return builder.error(HttpStatus.NOT_FOUND, ex.getMessage(), "Rating not found by given Id");
 	}
 

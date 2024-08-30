@@ -14,7 +14,7 @@ import lombok.Setter;
 public class BatchRequest {
 	@NotNull
 	@NotEmpty
-	@Pattern(regexp = "^[A-Za-z]+$")
+	@Pattern(regexp = "^[A-Za-z]+$" ,message = "title can have only alphabets")
 	private String title;
 	@NotNull
 	@NotEmpty
