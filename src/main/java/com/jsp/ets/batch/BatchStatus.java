@@ -4,5 +4,6 @@ public enum BatchStatus {
 
 	CREATED,
 	ON_GOING,
+	CANCELLED,
 	CLOSED
 }

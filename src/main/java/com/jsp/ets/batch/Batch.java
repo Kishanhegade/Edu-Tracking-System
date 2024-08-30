@@ -2,11 +2,11 @@ package com.jsp.ets.batch;
 
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.springframework.data.annotation.CreatedDate;
+
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -40,13 +40,13 @@ public class Batch {
 	@Column(name="subjects")
 	private List<Subject> subjects;
 	
-	@CreatedDate
+	
 	@Column(name="starting_date")
-	private LocalDateTime startedDate;
+	private LocalDate startedDate;
 	
 	@LastModifiedDate
 	@Column(name="closed_date")
-	private LocalDateTime closedDate;
+	private LocalDate closedDate;
 	
 	@ManyToMany
 	private List<Student> students;

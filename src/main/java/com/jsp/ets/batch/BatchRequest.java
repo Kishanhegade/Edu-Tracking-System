@@ -1,5 +1,6 @@
 package com.jsp.ets.batch;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -20,10 +21,17 @@ public class BatchRequest {
 	@NotNull
 	@NotEmpty
 	private List<Subject> subjects;
+	
+	@NotNull(message = "starting date cannot be null")
+	private LocalDate startingDate;
+	
 	@NotNull(message = "beginsAt cannot be null")
 	private LocalTime beginsAt;
+	
 	@NotNull(message = "endsAt cannot be null")
 	private LocalTime endsAt;
+	
+	
 	
 
 }
