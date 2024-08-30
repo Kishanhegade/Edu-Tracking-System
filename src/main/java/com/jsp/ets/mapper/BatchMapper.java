@@ -19,6 +19,7 @@ public class BatchMapper {
 		BatchResponse batchResponse = new BatchResponse();
 		batchResponse.setBatchId(batch.getBatchId());
 		batchResponse.setTitle(batch.getTitle());
+		batchResponse.setSubjects(batch.getSubjects());
 		batchResponse.setCreatedDate(batch.getCreatedDate());
 		batchResponse.setClosedDate(batch.getClosedDate());
 		batchResponse.setStudents(batch.getStudents());

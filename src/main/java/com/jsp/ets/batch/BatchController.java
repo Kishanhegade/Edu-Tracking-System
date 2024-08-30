@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jsp.ets.utility.AppResponseBuilder;
 import com.jsp.ets.utility.ResponseStructure;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -19,7 +20,7 @@ public class BatchController {
 	private BatchService batchService;
 	
 	@PostMapping("/batches")
-	public ResponseEntity<ResponseStructure<BatchResponse>> saveBatch(@RequestBody BatchRequest batchRequest) {
+	public ResponseEntity<ResponseStructure<BatchResponse>> saveBatch(@RequestBody@Valid BatchRequest batchRequest) {
 		BatchResponse batchResponse = batchService.saveBranch(batchRequest);
 		return builder.success(HttpStatus.CREATED, "Batch created", batchResponse);
 	}
