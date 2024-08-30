@@ -2,7 +2,6 @@ package com.jsp.ets.user;
 
 import java.util.List;
 
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,7 +16,6 @@ import lombok.Setter;
 @Setter
 public class Trainer extends User{
 	
-	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private List<Subject> subjects;
 
