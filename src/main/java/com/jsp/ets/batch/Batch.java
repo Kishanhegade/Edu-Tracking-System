@@ -42,7 +42,7 @@ public class Batch {
 	
 	
 	@Column(name="starting_date")
-	private LocalDate startedDate;
+	private LocalDate startDate;
 	
 	@LastModifiedDate
 	@Column(name="closed_date")

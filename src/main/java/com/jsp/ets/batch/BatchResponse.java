@@ -1,6 +1,6 @@
 package com.jsp.ets.batch;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class BatchResponse {
 	private String title;
 	private List<Student> students;
 	private List<Subject> subjects;
-	private LocalDateTime startedDate;
-	private LocalDateTime closedDate;
+	private LocalDate startDate;
+	private LocalDate closedDate;
 	private LocalTime beginsAt;
 	private LocalTime endsAt;
 }

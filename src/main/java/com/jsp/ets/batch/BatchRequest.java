@@ -23,7 +23,7 @@ public class BatchRequest {
 	private List<Subject> subjects;
 	
 	@NotNull(message = "starting date cannot be null")
-	private LocalDate startingDate;
+	private LocalDate startDate;
 	
 	@NotNull(message = "beginsAt cannot be null")
 	private LocalTime beginsAt;
