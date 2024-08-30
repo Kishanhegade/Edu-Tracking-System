@@ -41,8 +41,8 @@ public class Batch {
 	private List<Subject> subjects;
 	
 	@CreatedDate
-	@Column(name="created_date")
-	private LocalDateTime startingDate;
+	@Column(name="starting_date")
+	private LocalDateTime startedDate;
 	
 	@LastModifiedDate
 	@Column(name="closed_date")
