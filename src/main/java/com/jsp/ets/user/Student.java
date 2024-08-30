@@ -47,8 +47,6 @@ public class Student extends User{
 	
 	@ManyToMany(mappedBy = "students")
 	private List<Batch> batches;
-	
-	
-	
+
 
 }

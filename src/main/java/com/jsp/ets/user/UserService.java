@@ -74,16 +74,14 @@ public class UserService {
 	            .filter(s -> s.name().equalsIgnoreCase(stack))
 	            .findFirst()
 	            .orElseThrow(() -> new IllegalStackTypeException("Stack not found"));
-
-	    student.setStack(techStack);
-
+	    
 	    techStack.getSubjects().forEach(subject -> {
 	        Rating rating = new Rating();
 	        rating.setStudent(student);
 	        rating.setSubject(subject);
 	        ratingRepo.save(rating);
 	    });
-
+	    student.setStack(techStack);
 	    userRepo.save(student);
 	    return userMapper.mapToStudentResponse(student);
 	}

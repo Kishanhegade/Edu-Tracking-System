@@ -3,6 +3,7 @@ package com.jsp.ets.rating;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -32,19 +33,14 @@ public class RatingService {
 	}
 
 	public List<RatingResponse> findAllRatings(String userId) {
-		Optional<User> optional = userRepo.findById(userId);
-		if(optional.isPresent()) {
-			Student student = (Student) optional.get();
-			List<Rating> ratings = student.getRatings();
-			List<RatingResponse> responses = new ArrayList<RatingResponse>();
-			for(Rating rating:ratings) {
-				responses.add(ratingMapper.mapToRatingResponse(rating));
-			}
-			return responses;
-		}
-		else {
-			throw new UserNotFoundByIdException("failed to fetch ratings");
-		}
+		return userRepo.findById(userId)
+		        .map(user -> {
+		            Student student = (Student) user;
+		            return student.getRatings().stream()
+		                .map(ratingMapper::mapToRatingResponse)
+		                .collect(Collectors.toList());
+		        })
+		        .orElseThrow(() -> new UserNotFoundByIdException("Failed to fetch ratings"));
 		
 	}
 
