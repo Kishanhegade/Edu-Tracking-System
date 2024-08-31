@@ -1,5 +1,7 @@
 package com.jsp.ets.batch;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
 
 import com.jsp.ets.mapper.BatchMapper;
@@ -33,8 +35,11 @@ public class BatchService {
 		return batchRepo.findById(batchId).map(batch->{
 			if(status.equals(BatchStatus.CANCELLED))
 				batch.setStatus(BatchStatus.CANCELLED);
-			else if(status.equals(BatchStatus.CLOSED))
+			
+			else if(status.equals(BatchStatus.CLOSED)) {
 				batch.setStatus(status);
+				batch.setClosedDate(LocalDate.now());
+			}
 			batch=batchRepo.save(batch);
 			return batchMapper.mapToBatchResponse(batch);
 		}).orElseThrow(()->new BatchNotFoundByIdException("Failed to update batch status"));

@@ -85,6 +85,8 @@ public class UserMapper {
 		response.setEmail(trainer.getEmail());
 		response.setRole(trainer.getRole());
 		response.setSubjects(trainer.getSubjects());
+		response.setCreatedDate(trainer.getCreatedDate());
+		response.setModifiedDate(trainer.getModifiedDate());
 		return response;
 	}
 }
