@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 
-import com.jsp.ets.exception.IllegalStackTypeException;
+import com.jsp.ets.exception.InvalidStackValueException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
@@ -66,7 +66,7 @@ public class UserService {
 		Stack techStack = Arrays.stream(Stack.values())
 				.filter(s -> s.name().equalsIgnoreCase(stack))
 				.findFirst()
-				.orElseThrow(() -> new IllegalStackTypeException("Stack not found"));
+				.orElseThrow(() -> new InvalidStackValueException("Stack not found"));
 
 		techStack.getSubjects().forEach(subject -> {
 			Rating rating = new Rating();
