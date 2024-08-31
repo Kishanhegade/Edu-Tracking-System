@@ -45,7 +45,8 @@ public class RatingController {
 	}
 
 
-	@Operation(summary = "Get all ratings", description = "Fetch all ratings for a particular student based on a unique Identifier.")
+	@Operation(summary = "Get all ratings", description = "Fetch all ratings for a particular student based on a unique Identifier."
+			+ "The endpoint takes a path variable `userId` and responds with a list of ratings for a particular student")
 	@ApiResponse(responseCode = "302", description = "Ratings found.",
 	content = @Content(mediaType = "application/json", schema = @Schema(implementation = RatingResponse.class)))
 	@GetMapping("/students/{userId}/ratings")
