@@ -40,7 +40,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/admins")
+	@PostMapping("/admins/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.ADMIN);
 		return builder.success(HttpStatus.CREATED, "Admin created", userResponse);
@@ -54,7 +54,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/hrs")
+	@PostMapping("/hrs/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveHR(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.HR);
 		return builder.success(HttpStatus.CREATED, "HR created", userResponse);
@@ -67,7 +67,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/trainers")
+	@PostMapping("/trainers/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.TRAINER);
 		return builder.success(HttpStatus.CREATED, "Trainer created", userResponse);
@@ -80,7 +80,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/students")
+	@PostMapping("/students/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.STUDENT);
 		return builder.success(HttpStatus.CREATED, "Student created", userResponse);
@@ -97,7 +97,7 @@ public class UserController {
 	})
 	@PutMapping("/students/{userId}")
 	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudent(@RequestBody @Valid StudentRequest studentRequest, @PathVariable String userId) {
-		StudentResponse studentResponse = (StudentResponse)userService.updateUser(studentRequest, userId, UserRole.STUDENT);
+		StudentResponse studentResponse = (StudentResponse)userService.updateUser(studentRequest, userId);
 		return builder.success(HttpStatus.OK, "Student updated", studentResponse);
 	}
 
@@ -111,7 +111,7 @@ public class UserController {
 	})
 	@PutMapping("/trainers/{userId}")
 	public ResponseEntity<ResponseStructure<TrainerResponse>> updateTrainer(@RequestBody @Valid TrainerRequest trainerRequest, @PathVariable String userId) {
-		TrainerResponse trainerResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId, UserRole.TRAINER);
+		TrainerResponse trainerResponse = (TrainerResponse)userService.updateUser(trainerRequest, userId);
 		return builder.success(HttpStatus.OK, "Trainer updated", trainerResponse);
 	} 
 

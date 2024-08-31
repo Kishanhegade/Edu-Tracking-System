@@ -1,10 +1,7 @@
 package com.jsp.ets.user;
 
-import java.util.Arrays;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 
 import com.jsp.ets.exception.InvalidStackValueException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
@@ -40,10 +37,10 @@ public class UserService {
 		return userMapper.mapToUserResponse(user);
 	}
 
-	public UserResponse updateUser(UserRequest userRequest, String userId, UserRole role) {
+	public UserResponse updateUser(UserRequest userRequest, String userId) {
 		return userRepo.findById(userId)
 				.map(user -> {
-					switch (role) {
+					switch (user.getRole()) {
 					case STUDENT -> {
 						Student student = userMapper.mapToStudentEntity((StudentRequest) userRequest, (Student) user);
 						return userMapper.mapToStudentResponse(userRepo.save(student));
@@ -52,7 +49,7 @@ public class UserService {
 						Trainer trainer = userMapper.mapToTrainerEntity((TrainerRequest) userRequest, (Trainer) user);
 						return userMapper.mapToTrainerResponse(userRepo.save(trainer));
 					}
-					default -> throw new IllegalArgumentException("Unexpected value: " + role);
+					default -> throw new IllegalArgumentException("Unexpected value: " + user.getRole());
 					}
 				})
 				.orElseThrow(() -> new UserNotFoundByIdException("Failed to update User"));
@@ -62,12 +59,14 @@ public class UserService {
 	public StudentResponse updateStudentStack(String userId, String stack) {
 		Student student = (Student) userRepo.findById(userId)
 				.orElseThrow(() -> new UserNotFoundByIdException("Failed to update Stack"));
-
-		Stack techStack = Arrays.stream(Stack.values())
-				.filter(s -> s.name().equalsIgnoreCase(stack))
-				.findFirst()
-				.orElseThrow(() -> new InvalidStackValueException("Stack not found"));
-
+		
+		Stack techStack = null;
+		try {
+			techStack = Stack.valueOf(stack);
+		} catch(RuntimeException ex) {
+			throw new InvalidStackValueException("Invalid stack value provided");
+		}
+		
 		techStack.getSubjects().forEach(subject -> {
 			Rating rating = new Rating();
 			rating.setStudent(student);

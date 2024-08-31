@@ -67,7 +67,7 @@ public class BatchController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json",schema = @Schema(anyOf = RuntimeException.class)))
 
 	})
-	@PatchMapping("/batches/{batchId}/cancelled")
+	@PatchMapping("/batches/{batchId}/cancel")
 	public ResponseEntity<ResponseStructure<BatchResponse>> updateBatchStatusToCancelled(@PathVariable String batchId) {
 		BatchResponse batchResponse = batchService.updateBatchStatus(batchId, BatchStatus.CANCELLED);
 		return builder.success(HttpStatus.OK, "batch status updated to cancelled", batchResponse);
@@ -83,7 +83,7 @@ public class BatchController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json",schema = @Schema(anyOf = RuntimeException.class)))
 
 	})
-	@PatchMapping("/batches/{batchId}/closed")
+	@PatchMapping("/batches/{batchId}/close")
 	public ResponseEntity<ResponseStructure<BatchResponse>> updateBatchStatusToClosed(@PathVariable String batchId) {
 		BatchResponse batchResponse = batchService.updateBatchStatus(batchId, BatchStatus.CLOSED);
 		return builder.success(HttpStatus.OK, "Batch status updated to closed", batchResponse);

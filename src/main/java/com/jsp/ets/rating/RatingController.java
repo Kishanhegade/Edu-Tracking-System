@@ -38,7 +38,7 @@ public class RatingController {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = "application/json",schema = @Schema(anyOf = RuntimeException.class)))
 	})
 
-	@PutMapping("ratings/{ratingId}")
+	@PutMapping("/ratings/{ratingId}")
 	public ResponseEntity<ResponseStructure<RatingResponse>> updateRating(@PathVariable String ratingId, @RequestBody RatingRequest ratingRequest) {
 		RatingResponse ratingResponse = ratingService.updateRating(ratingId, ratingRequest);
 		return builder.success(HttpStatus.OK,"Rating updated", ratingResponse);
@@ -48,7 +48,7 @@ public class RatingController {
 	@Operation(summary = "Get all ratings", description = "Fetch all ratings for a particular student based on a unique Identifier.")
 	@ApiResponse(responseCode = "302", description = "Ratings found.",
 	content = @Content(mediaType = "application/json", schema = @Schema(implementation = RatingResponse.class)))
-	@GetMapping("/ratings/{userId}")
+	@GetMapping("/students/{userId}/ratings")
 	public ResponseEntity<ResponseStructure<List<RatingResponse>>> findAllRatings(@PathVariable String userId) {
 		List<RatingResponse> ratingResponses = ratingService.findAllRatings(userId);
 		return builder.success(HttpStatus.FOUND, "Ratings found", ratingResponses);
