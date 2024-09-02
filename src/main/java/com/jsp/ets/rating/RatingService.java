@@ -1,17 +1,11 @@
 package com.jsp.ets.rating;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-
 import com.jsp.ets.exception.RatingNotFoundByIdException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.mapper.RatingMapper;
 import com.jsp.ets.user.Student;
-import com.jsp.ets.user.User;
 import com.jsp.ets.user.UserRepository;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +17,7 @@ public class RatingService {
 	private RatingRepository ratingRepo;
 	private RatingMapper ratingMapper;
 	private UserRepository userRepo;
-	
+
 	public RatingResponse updateRating(String ratingId, RatingRequest ratingRequest) {
 		return ratingRepo.findById(ratingId).map(rating->{
 			ratingMapper.mapToRatingEntity(ratingRequest, rating);
@@ -34,14 +28,14 @@ public class RatingService {
 
 	public List<RatingResponse> findAllRatings(String userId) {
 		return userRepo.findById(userId)
-		        .map(user -> {
-		            Student student = (Student) user;
-		            return student.getRatings().stream()
-		                .map(ratingMapper::mapToRatingResponse)
-		                .collect(Collectors.toList());
-		        })
-		        .orElseThrow(() -> new UserNotFoundByIdException("Failed to fetch ratings"));
-		
+				.map(user -> {
+					Student student = (Student) user;
+					return student.getRatings().stream()
+							.map(ratingMapper::mapToRatingResponse)
+							.toList();
+				})
+				.orElseThrow(() -> new UserNotFoundByIdException("Failed to fetch ratings"));
+
 	}
 
 }
