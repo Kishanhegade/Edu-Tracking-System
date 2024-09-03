@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - dev
+      - sonarcloud_implementation
   pull_request:
     types: [ opened, synchronize, reopened ]
 jobs:
