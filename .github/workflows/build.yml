@@ -36,8 +36,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          MYSQL_URL: ${{ secrets.MYSQL_URL }}
-          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_URL: jdbc:mysql://localhost:3306/edu_tracking_system_db?createDatabaseIfNotExist=true
+          MYSQL_USERNAME: root
+          MYSQL_PASSWORD: Sharingan@321
           SUPER_ADMIN_EMAIL: abc@gmail.com
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kishanhegade_Edu-Tracking-System
