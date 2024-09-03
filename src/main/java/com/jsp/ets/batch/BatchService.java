@@ -1,13 +1,11 @@
 package com.jsp.ets.batch;
 
-import java.time.LocalDate;
-
+import com.jsp.ets.exception.BatchNotFoundByIdException;
+import com.jsp.ets.mapper.BatchMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.jsp.ets.mapper.BatchMapper;
-import com.jsp.ets.exception.BatchNotFoundByIdException;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +21,7 @@ public class BatchService {
 		return batchMapper.mapToBatchResponse(batch);
 	}
 
-	public BatchResponse updateBatch(String batchId, @Valid BatchRequest batchRequest) {
+	public BatchResponse updateBatch(String batchId, BatchRequest batchRequest) {
 		return batchRepo.findById(batchId).map(batch->{
 			batchMapper.mapToBatchEntity(batchRequest, batch);
 			batch=batchRepo.save(batch);

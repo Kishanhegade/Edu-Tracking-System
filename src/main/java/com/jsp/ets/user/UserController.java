@@ -150,7 +150,7 @@ public class UserController {
 			@Parameter(description = "The new stack to assign to the student. Must be one of: JAVA_FULL_STACK, MERN_STACK, PYTHON_FULL_STACK.", example = "JAVA_FULL_STACK")
 			@RequestParam String stack, 
 			@PathVariable String userId) {
-		StudentResponse studentResponse = (StudentResponse)userService.updateStudentStack(userId, stack);
+		StudentResponse studentResponse = userService.updateStudentStack(userId, stack);
 		return builder.success(HttpStatus.OK, "Student stack updated", studentResponse);
 	}
 

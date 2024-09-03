@@ -29,7 +29,7 @@ public class Rating {
 	private Subject subject;
 	
 	@Column(name="rating")
-	private Integer rating;
+	private Integer ratings;
 	
 	@Column(name="feedback")
 	private String feedback;

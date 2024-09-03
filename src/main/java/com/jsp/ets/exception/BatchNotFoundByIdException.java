@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class BatchNotFoundByIdException extends RuntimeException{
-	private String message;
+	private final String message;
 
 	@Override
 	public String getMessage() {

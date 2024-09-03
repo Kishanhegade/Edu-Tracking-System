@@ -2,7 +2,7 @@ package com.jsp.ets.exception;
 
 public class InvalidStackValueException extends RuntimeException{
 
-	private String message;
+	private final String message;
 
 	public InvalidStackValueException(String message) {
 		this.message = message;
