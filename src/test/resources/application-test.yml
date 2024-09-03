@@ -6,5 +6,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
         ddl-auto: create-drop
+
+super_admin:
+  email: ${SUPER_ADMIN_EMAIL}
