@@ -9,7 +9,7 @@ import com.jsp.ets.rating.RatingResponse;
 public class RatingMapper {
 	
 	public Rating mapToRatingEntity(RatingRequest ratingRequest, Rating rating) {
-		rating.setRating(ratingRequest.getRating());
+		rating.setRatings(ratingRequest.getRatings());
 		rating.setFeedback(ratingRequest.getFeedback());
 		return rating;
 	}
@@ -17,7 +17,7 @@ public class RatingMapper {
 	public RatingResponse mapToRatingResponse(Rating rating) {
 
 		RatingResponse ratingResponse = new RatingResponse();
-		ratingResponse.setRating(rating.getRating());
+		ratingResponse.setRatings(rating.getRatings());
 		ratingResponse.setFeedback(rating.getFeedback());
 		ratingResponse.setRatingId(rating.getRatingId());
 		ratingResponse.setSubject(rating.getSubject());

@@ -11,7 +11,7 @@ import lombok.Setter;
 public class RatingResponse {
 
 	private String ratingId;
-	private Integer rating;
+	private Integer ratings;
 
 	@Schema(description = "Feedback provided by the trainer", example = "Great course, learned a lot!")
 	private String feedback;

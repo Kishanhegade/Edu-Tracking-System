@@ -8,6 +8,7 @@ class EduTrackingSystemApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Yet to implement testing methods
 	}
 
 }

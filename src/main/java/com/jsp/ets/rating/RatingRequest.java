@@ -17,7 +17,7 @@ public class RatingRequest {
 	@Min(1)
 	@Max(5)
 	@Pattern(regexp = "^-?\\d+$", message = "Must be an integer")
-	private Integer rating;
+	private Integer ratings;
 
 	@Schema(description = "Feedback provided by the trainer on the performance of the student ", example = "Need to improve in communication")
 	@NotNull

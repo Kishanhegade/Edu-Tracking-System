@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RatingNotFoundByIdException extends RuntimeException{
 
-	private String message;
+	private final String message;
 
 	@Override
 	public String getMessage() {
