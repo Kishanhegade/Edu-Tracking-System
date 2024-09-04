@@ -15,6 +15,18 @@ spring:
         ddl-auto: update
         format_sql: true
 
+#MAIL CONFIGURATION
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
 
 # APPLICATION CONFIGURATION
 super_admin:
