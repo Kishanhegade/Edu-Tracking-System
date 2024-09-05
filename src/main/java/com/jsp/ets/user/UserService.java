@@ -11,6 +11,7 @@ import com.jsp.ets.utility.MailSender;
 import com.jsp.ets.utility.MessageModel;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,7 +27,8 @@ public class UserService {
 	private MailSender mailSender;
 	private Random random;
 
-	public UserResponse saveUser(RegistrationRequest registrationRequest, UserRole role) {
+	@CachePut(cacheNames = {"non_verified_users"}, key = "#registrationRequest.email")
+	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = switch (role) {
 		case ADMIN -> new Admin();
 		case HR -> new HR();

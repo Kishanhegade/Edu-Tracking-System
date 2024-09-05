@@ -42,7 +42,7 @@ public class UserController {
 	})
 	@PostMapping("/admins/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid RegistrationRequest registrationRequest) {
-		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.ADMIN);
+		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.ADMIN);
 		return builder.success(HttpStatus.CREATED, "Admin created", userResponse);
 
 	}
@@ -56,7 +56,7 @@ public class UserController {
 	})
 	@PostMapping("/hrs/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveHR(@RequestBody @Valid RegistrationRequest registrationRequest) {
-		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.HR);
+		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.HR);
 		return builder.success(HttpStatus.CREATED, "HR created", userResponse);
 	}
 
@@ -69,7 +69,7 @@ public class UserController {
 	})
 	@PostMapping("/trainers/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody @Valid RegistrationRequest registrationRequest) {
-		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.TRAINER);
+		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.TRAINER);
 		return builder.success(HttpStatus.CREATED, "Trainer created", userResponse);
 	}
 
@@ -82,7 +82,7 @@ public class UserController {
 	})
 	@PostMapping("/students/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody @Valid RegistrationRequest registrationRequest) {
-		UserResponse userResponse = userService.saveUser(registrationRequest, UserRole.STUDENT);
+		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.STUDENT);
 		return builder.success(HttpStatus.CREATED, "Student created", userResponse);
 	}
 
