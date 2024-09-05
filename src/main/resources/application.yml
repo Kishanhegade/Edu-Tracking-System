@@ -27,7 +27,11 @@ spring:
           starttls:
             enable: true
             required: true
-
+  # EH CACHE CONFIGURATION
+  cache:
+    jcache:
+      config: "classpath:ehcache.xml"
 # APPLICATION CONFIGURATION
 super_admin:
   email: ${SUPER_ADMIN_EMAIL}
+
