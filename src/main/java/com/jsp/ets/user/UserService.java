@@ -7,11 +7,11 @@ import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
 import com.jsp.ets.security.RegistrationRequest;
+import com.jsp.ets.utility.CacheHelper;
 import com.jsp.ets.utility.MailSender;
 import com.jsp.ets.utility.MessageModel;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,8 +26,8 @@ public class UserService {
 	private RatingRepository ratingRepo;
 	private MailSender mailSender;
 	private Random random;
+	private CacheHelper cacheHelper;
 
-	@CachePut(cacheNames = {"non_verified_users"}, key = "#registrationRequest.email")
 	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = switch (role) {
 		case ADMIN -> new Admin();
@@ -40,7 +40,8 @@ public class UserService {
 		user = userMapper.mapToUserEntity(registrationRequest, user);
 		user.setRole(role);
 		Integer otp = random.nextInt(100000, 999999);
-
+		cacheHelper.userCache(user);
+		cacheHelper.otpCache(otp);
 		return userMapper.mapToUserResponse(user);
 	}
 

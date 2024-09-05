@@ -43,7 +43,7 @@ public class UserController {
 	@PostMapping("/admins/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.ADMIN);
-		return builder.success(HttpStatus.CREATED, "Admin created", userResponse);
+		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
 
 	}
 
@@ -57,7 +57,7 @@ public class UserController {
 	@PostMapping("/hrs/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveHR(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.HR);
-		return builder.success(HttpStatus.CREATED, "HR created", userResponse);
+		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
 	}
 
 	@Operation(description = "The API endpoint is used to register a new Trainer into the database."
@@ -70,7 +70,7 @@ public class UserController {
 	@PostMapping("/trainers/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.TRAINER);
-		return builder.success(HttpStatus.CREATED, "Trainer created", userResponse);
+		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
 	}
 
 	@Operation(description = "The API endpoint is used to register a new Student into the database."
@@ -83,7 +83,7 @@ public class UserController {
 	@PostMapping("/students/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody @Valid RegistrationRequest registrationRequest) {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.STUDENT);
-		return builder.success(HttpStatus.CREATED, "Student created", userResponse);
+		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
 	}
 
 
@@ -98,7 +98,7 @@ public class UserController {
 	@PutMapping("/students/{userId}")
 	public ResponseEntity<ResponseStructure<StudentResponse>> updateStudent(@RequestBody @Valid StudentRequest studentRequest, @PathVariable String userId) {
 		StudentResponse studentResponse = (StudentResponse)userService.updateUser(studentRequest, userId);
-		return builder.success(HttpStatus.OK, "Student updated", studentResponse);
+		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", studentResponse);
 	}
 
 	@Operation(description = "The API endpoint is used to update the details of an existing Trainer user based on a unique Identifier."
