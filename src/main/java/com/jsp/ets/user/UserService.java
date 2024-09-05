@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Random;
 
 @AllArgsConstructor
 @Service
@@ -23,6 +24,7 @@ public class UserService {
 	private UserMapper userMapper;
 	private RatingRepository ratingRepo;
 	private MailSender mailSender;
+	private Random random;
 
 	public UserResponse saveUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = switch (role) {
