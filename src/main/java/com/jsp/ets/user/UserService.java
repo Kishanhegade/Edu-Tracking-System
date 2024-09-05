@@ -1,16 +1,19 @@
 package com.jsp.ets.user;
 
 
-import org.springframework.stereotype.Service;
-
 import com.jsp.ets.exception.InvalidStackValueException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
 import com.jsp.ets.security.RegistrationRequest;
-
+import com.jsp.ets.utility.MailSender;
+import com.jsp.ets.utility.MessageModel;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @AllArgsConstructor
 @Service
@@ -19,7 +22,7 @@ public class UserService {
 	private UserRepository userRepo;
 	private UserMapper userMapper;
 	private RatingRepository ratingRepo;
-
+	private MailSender mailSender;
 
 	public UserResponse saveUser(RegistrationRequest registrationRequest, UserRole role) {
 		User user = switch (role) {
@@ -35,6 +38,69 @@ public class UserService {
 		user = userRepo.save(user);
 
 		return userMapper.mapToUserResponse(user);
+	}
+
+	private void sendOtpToMailId (String email, Integer otp) throws MessagingException {
+		String text = "<!DOCTYPE html>\n" +
+				"<html lang=\"en\">\n" +
+				"<head>\n" +
+				"    <meta charset=\"UTF-8\">\n" +
+				"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+				"    <title>OTP Verification</title>\n" +
+				"    <style>\n" +
+				"        body {\n" +
+				"            font-family: Arial, sans-serif;\n" +
+				"            background-color: #f4f4f4;\n" +
+				"            display: flex;\n" +
+				"            justify-content: center;\n" +
+				"            align-items: center;\n" +
+				"            height: 100vh;\n" +
+				"            margin: 0;\n" +
+				"        }\n" +
+				"        .container {\n" +
+				"            background-color: #ffffff;\n" +
+				"            padding: 20px;\n" +
+				"            border-radius: 10px;\n" +
+				"            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n" +
+				"            max-width: 400px;\n" +
+				"            text-align: center;\n" +
+				"        }\n" +
+				"        .container h2 {\n" +
+				"            color: #333333;\n" +
+				"        }\n" +
+				"        .otp {\n" +
+				"            font-size: 24px;\n" +
+				"            color: #2d89ef;\n" +
+				"            font-weight: bold;\n" +
+				"            margin: 10px 0;\n" +
+				"        }\n" +
+				"        .note {\n" +
+				"            font-size: 14px;\n" +
+				"            color: #888888;\n" +
+				"        }\n" +
+				"        .highlight {\n" +
+				"            color: #ff0000;\n" +
+				"        }\n" +
+				"    </style>\n" +
+				"</head>\n" +
+				"<body>\n" +
+				"\n" +
+				"    <div class=\"container\">\n" +
+				"        <h2>OTP Verification</h2>\n" +
+				"        <p>Dear User,</p>\n" +
+				"        <p>Your OTP to verify your email is:</p>\n" +
+				"        <div class=\"otp\">"+ otp + "</div>\n" +
+				"        <p class=\"note\">Valid for the next <span class=\"highlight\">5 minutes</span> only.</p>\n" +
+				"    </div>\n" +
+				"\n" +
+				"</body>\n" +
+				"</html>\n";
+		mailSender.sendMail(MessageModel.builder()
+				.to(email)
+				.sentDate(new Date())
+				.text(text)
+				.subject("Verify your email for registration").build());
+
 	}
 
 	public UserResponse updateUser(UserRequest userRequest, String userId) {
