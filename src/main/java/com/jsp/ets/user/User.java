@@ -1,25 +1,16 @@
 package com.jsp.ets.user;
 
-import java.time.LocalDateTime;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jsp.ets.config.GenerateSequenceId;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jsp.ets.config.GenerateSequenceId;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +18,7 @@ import lombok.Setter;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User implements Serializable {
 	@Id
 	@GenerateSequenceId
 	@Column(name = "user_id")

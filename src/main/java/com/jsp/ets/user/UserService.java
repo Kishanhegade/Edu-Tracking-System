@@ -10,7 +10,7 @@ import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
 import com.jsp.ets.security.RegistrationRequest;
 import com.jsp.ets.utility.CacheHelper;
-import com.jsp.ets.utility.MailSender;
+import com.jsp.ets.utility.MailSenderService;
 import com.jsp.ets.utility.MessageModel;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
@@ -26,11 +26,11 @@ public class UserService {
 	private UserRepository userRepo;
 	private UserMapper userMapper;
 	private RatingRepository ratingRepo;
-	private MailSender mailSender;
+	private MailSenderService mailSender;
 	private Random random;
 	private CacheHelper cacheHelper;
 
-	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) {
+	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) throws MessagingException {
 		User user = switch (role) {
 		case ADMIN -> new Admin();
 		case HR -> new HR();
@@ -43,7 +43,8 @@ public class UserService {
 		user.setRole(role);
 		Integer otp = random.nextInt(100000, 999999);
 		cacheHelper.userCache(user);
-		cacheHelper.otpCache(otp);
+		cacheHelper.otpCache(otp,user.getEmail());
+		sendOtpToMailId(user.getEmail(),otp);
 		return userMapper.mapToUserResponse(user);
 	}
 
@@ -102,11 +103,13 @@ public class UserService {
 				"\n" +
 				"</body>\n" +
 				"</html>\n";
-		mailSender.sendMail(MessageModel.builder()
-				.to(email)
-				.sentDate(new Date())
-				.text(text)
-				.subject("Verify your email for registration").build());
+		MessageModel messageModel = new MessageModel();
+		messageModel.setTo(email);
+		messageModel.setSubject("Verify your email for EDU-Tracking");
+		messageModel.setSentDate(new Date());
+		messageModel.setText(text);
+
+		mailSender.sendMail(messageModel);
 
 	}
 
@@ -152,15 +155,15 @@ public class UserService {
 		return userMapper.mapToStudentResponse(student);
 	}
 
-	public UserResponse verifyUser(OtpRequest otpRequestDto) {
-		Integer cachedOtp = cacheHelper.getCachedOtp(otpRequestDto.getEmail());
+	public UserResponse verifyUser(OtpRequest otpRequest) {
+		Integer cachedOtp = cacheHelper.getCachedOtp(otpRequest.getEmail());
 
-		if (cachedOtp == null || !cachedOtp.equals(otpRequestDto.getOtp())) {
+		if (!cachedOtp.equals(otpRequest.getOtp())) {
 			throw new InvalidOtpException("Invalid Otp entered");
 		}
 
-		User cachedUser = cacheHelper.getRegisteringUser(otpRequestDto.getEmail());
-		if(cachedUser == null)
+		User cachedUser = cacheHelper.getRegisteringUser(otpRequest.getEmail());
+		if(!cachedUser.getEmail().equals(otpRequest.getEmail()))
 			throw new RegistrationSessionExpiredException("Registration session is expired");
 
 		User user = userRepo.save(cachedUser);

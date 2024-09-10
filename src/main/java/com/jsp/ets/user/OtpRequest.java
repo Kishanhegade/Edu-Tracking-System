@@ -1,8 +1,6 @@
 package com.jsp.ets.user;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +11,7 @@ public class OtpRequest {
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$")
     private String email;
 
-    @Pattern(regexp = "^\\d{6}$", message = "OTP must be a 6-digit number")
-    private int otp;
+    @Min(value = 100000, message = "OTP must be at least 6 digits")
+    @Max(value = 999999, message = "OTP must be at most 6 digits")
+    private Integer otp;
 }
