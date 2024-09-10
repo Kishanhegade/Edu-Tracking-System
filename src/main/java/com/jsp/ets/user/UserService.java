@@ -1,7 +1,9 @@
 package com.jsp.ets.user;
 
 
+import com.jsp.ets.exception.InvalidOtpException;
 import com.jsp.ets.exception.InvalidStackValueException;
+import com.jsp.ets.exception.RegistrationSessionExpiredException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
@@ -150,7 +152,20 @@ public class UserService {
 		return userMapper.mapToStudentResponse(student);
 	}
 
+	public UserResponse verifyUser(OtpRequest otpRequestDto) {
+		Integer cachedOtp = cacheHelper.getCachedOtp(otpRequestDto.getEmail());
 
+		if (cachedOtp == null || !cachedOtp.equals(otpRequestDto.getOtp())) {
+			throw new InvalidOtpException("Invalid Otp entered");
+		}
+
+		User cachedUser = cacheHelper.getRegisteringUser(otpRequestDto.getEmail());
+		if(cachedUser == null)
+			throw new RegistrationSessionExpiredException("Registration session is expired");
+
+		User user = userRepo.save(cachedUser);
+		return userMapper.mapToUserResponse(user);
+	}
 
 
 }

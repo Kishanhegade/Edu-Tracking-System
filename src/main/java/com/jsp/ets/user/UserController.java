@@ -154,6 +154,11 @@ public class UserController {
 		return builder.success(HttpStatus.OK, "Student stack updated", studentResponse);
 	}
 
-
+	@PostMapping("/users/verify")
+	public ResponseEntity<ResponseStructure<UserResponse>> verifyUser(
+			@RequestBody @Valid OtpRequest otpRequest) {
+		UserResponse response = userService.verifyUser(otpRequest);
+		return builder.success(HttpStatus.OK, "Successfully registered the user", response);
+	}
 
 }
