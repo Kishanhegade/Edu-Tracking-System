@@ -2,6 +2,7 @@ package com.jsp.ets.exceptionhandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,4 +23,8 @@ public class UserExceptionHandler {
 		return builder.error(HttpStatus.NOT_FOUND, ex.getMessage(), "Rating not found by given Id");
 	}
 
+	@ExceptionHandler(UsernameNotFoundException.class)
+	public ResponseEntity<ErrorStructure<String>> handleUsernameNotFound(UsernameNotFoundException ex) {
+		return builder.error(HttpStatus.NOT_FOUND, ex.getMessage(), "User not found by given email");
+	}
 }
