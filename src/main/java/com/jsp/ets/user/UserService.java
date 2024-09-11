@@ -110,7 +110,21 @@ public class UserService {
 		messageModel.setText(text);
 
 		mailSender.sendMail(messageModel);
+	}
 
+	public UserResponse verifyUser(OtpRequest otpRequest) {
+		Integer cachedOtp = cacheHelper.getCachedOtp(otpRequest.getEmail());
+
+		if (!cachedOtp.equals(otpRequest.getOtp())) {
+			throw new InvalidOtpException("Invalid Otp entered");
+		}
+
+		User cachedUser = cacheHelper.getRegisteringUser(otpRequest.getEmail());
+		if(!cachedUser.getEmail().equals(otpRequest.getEmail()))
+			throw new RegistrationSessionExpiredException("Registration session is expired");
+
+		User user = userRepo.save(cachedUser);
+		return userMapper.mapToUserResponse(user);
 	}
 
 	public UserResponse updateUser(UserRequest userRequest, String userId) {
@@ -154,21 +168,5 @@ public class UserService {
 		userRepo.save(student);
 		return userMapper.mapToStudentResponse(student);
 	}
-
-	public UserResponse verifyUser(OtpRequest otpRequest) {
-		Integer cachedOtp = cacheHelper.getCachedOtp(otpRequest.getEmail());
-
-		if (!cachedOtp.equals(otpRequest.getOtp())) {
-			throw new InvalidOtpException("Invalid Otp entered");
-		}
-
-		User cachedUser = cacheHelper.getRegisteringUser(otpRequest.getEmail());
-		if(!cachedUser.getEmail().equals(otpRequest.getEmail()))
-			throw new RegistrationSessionExpiredException("Registration session is expired");
-
-		User user = userRepo.save(cachedUser);
-		return userMapper.mapToUserResponse(user);
-	}
-
 
 }

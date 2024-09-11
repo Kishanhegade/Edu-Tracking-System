@@ -13,7 +13,7 @@ public class CacheHelper {
         return user;
     }
 
-    @CachePut(cacheNames = {"otps"},key = "#email")
+    @CachePut(cacheNames = {"otps"}, key = "#email")
     public Integer otpCache(Integer otp, String email){
         return otp;
     }
