@@ -1,5 +1,7 @@
 package com.jsp.ets.user;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 public enum Privilege {
 	
 	WRITE_ADMIN, WRITE_HR, WRITE_STUDENT, WRITE_TRAINER,
@@ -23,5 +25,7 @@ public enum Privilege {
 	
 	WRITE_RATING,
 	READ_RATING;
+
+
 
 }
