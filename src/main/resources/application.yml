@@ -11,9 +11,9 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
         ddl-auto: update
         format_sql: true
+
 
 #MAIL CONFIGURATION
   mail:

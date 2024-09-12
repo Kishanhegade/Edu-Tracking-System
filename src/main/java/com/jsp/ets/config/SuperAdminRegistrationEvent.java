@@ -1,26 +1,24 @@
 package com.jsp.ets.config;
 
-import java.util.List;
-import java.util.UUID;
-
+import com.jsp.ets.user.SuperAdmin;
+import com.jsp.ets.user.User;
+import com.jsp.ets.user.UserRepository;
+import com.jsp.ets.user.UserRole;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.jsp.ets.user.SuperAdmin;
-import com.jsp.ets.user.User;
-import com.jsp.ets.user.UserRepository;
-import com.jsp.ets.user.UserRole;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.UUID;
 
 
 @Component
 @Slf4j
 public class SuperAdminRegistrationEvent {
 	
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	//Here AllArgsConstructor cannot be used
 	public SuperAdminRegistrationEvent(UserRepository userRepository) {
 		this.userRepository = userRepository;

@@ -12,9 +12,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Setter
+@Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 @EntityListeners(AuditingEntityListener.class)
@@ -46,8 +46,5 @@ public class User implements Serializable {
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
-	
-	
-	
 
 }
