@@ -41,7 +41,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/admins/register")
+	@PostMapping("/register/admins")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveAdmin(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.ADMIN);
 		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
@@ -55,7 +55,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/hrs/register")
+	@PostMapping("/register/hrs")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveHR(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.HR);
 		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
@@ -68,7 +68,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/trainers/register")
+	@PostMapping("/register/trainers")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveTrainer(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.TRAINER);
 		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
@@ -81,7 +81,7 @@ public class UserController {
 					@ApiResponse(responseCode = "400", description = "Bad Request, invalid inputs", content = @Content(schema = @Schema(anyOf = ErrorStructure.class))),
 					@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(anyOf = RuntimeException.class)))
 	})
-	@PostMapping("/students/register")
+	@PostMapping("/register/students")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveStudent(@RequestBody @Valid RegistrationRequest registrationRequest) throws MessagingException {
 		UserResponse userResponse = userService.registerUser(registrationRequest, UserRole.STUDENT);
 		return builder.success(HttpStatus.ACCEPTED, "Accepted the details, verify your email by submitting the otp", userResponse);
