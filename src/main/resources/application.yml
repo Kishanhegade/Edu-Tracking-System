@@ -1,21 +1,23 @@
 spring:
   application:
     name: Edu-Tracking-System
-# DATASOURCE CONFIGURATION
 
+  # DATASOURCE CONFIGURATION
   datasource:
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        ddl-auto: update
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-
-#MAIL CONFIGURATION
+  # MAIL CONFIGURATION
   mail:
     host: smtp.gmail.com
     port: 587
@@ -27,11 +29,13 @@ spring:
           starttls:
             enable: true
             required: true
-  # EH CACHE CONFIGURATION
+
+  # CACHE CONFIGURATION
   cache:
     jcache:
-      config: "classpath:ehcache.xml"
-# APPLICATION CONFIGURATION
-super_admin:
+      config: classpath:ehcache.xml
+
+# CUSTOM APPLICATION CONFIGURATIONS
+super-admin:
   email: ${SUPER_ADMIN_EMAIL}
 

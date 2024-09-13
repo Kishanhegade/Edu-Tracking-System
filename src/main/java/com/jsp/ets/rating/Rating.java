@@ -33,8 +33,7 @@ public class Rating {
 	
 	@Column(name="feedback")
 	private String feedback;
-	
-	
+
 	@ManyToOne
 	private Student student;
 }
