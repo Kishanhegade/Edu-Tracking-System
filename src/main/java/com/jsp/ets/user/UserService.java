@@ -8,12 +8,17 @@ import com.jsp.ets.exception.UserNotFoundByIdException;
 import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
+import com.jsp.ets.security.JwtService;
 import com.jsp.ets.security.RegistrationRequest;
 import com.jsp.ets.utility.CacheHelper;
 import com.jsp.ets.utility.MailSenderService;
 import com.jsp.ets.utility.MessageModel;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -29,7 +34,8 @@ public class UserService {
 	private MailSenderService mailSender;
 	private Random random;
 	private CacheHelper cacheHelper;
-
+	private JwtService jwtService;
+	private AuthenticationManager authenticationManager;
 	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) throws MessagingException {
 		User user = switch (role) {
 		case ADMIN -> new Admin();
@@ -169,4 +175,19 @@ public class UserService {
 		return userMapper.mapToStudentResponse(student);
 	}
 
+    public String login(LoginRequest loginRequest) {
+		{
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
+			Authentication authentication=authenticationManager.authenticate(authenticationToken);
+			if(authentication.isAuthenticated()) {
+				String token = userRepo.findByEmail(loginRequest.getEmail())
+						.map(user -> {
+							return jwtService.createJwt(user.getUserId(), user.getEmail(), user.getRole().name());
+
+						}).orElseThrow(()->new UsernameNotFoundException("user name not found"));
+				return token;
+			}
+			return null;
+		}
+    }
 }

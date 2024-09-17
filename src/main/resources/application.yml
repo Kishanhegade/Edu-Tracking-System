@@ -39,3 +39,9 @@ spring:
 super-admin:
   email: ${SUPER_ADMIN_EMAIL}
 
+#Jwt Secret
+my_app:
+  jwt:
+    secret: ${JWT_SECRET}
+    access_expiry: 5
+

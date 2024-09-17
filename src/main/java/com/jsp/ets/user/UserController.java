@@ -162,4 +162,9 @@ public class UserController {
 		return builder.success(HttpStatus.OK, "Successfully registered the user", response);
 	}
 
+	@PostMapping("/login")
+	public String login(@RequestBody @Valid LoginRequest loginRequest){
+		return userService.login(loginRequest);
+	}
+
 }
