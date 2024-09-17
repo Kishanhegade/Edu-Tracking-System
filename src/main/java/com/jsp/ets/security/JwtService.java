@@ -23,7 +23,7 @@ public class JwtService {
     @Value("${my_app.jwt.access_expiry}")
     private long access_expiry;
 
-    public String createJwt(String email, String userId, String role){
+    public String createJwt(String userId, String email, String role){
         return Jwts.builder()
                 .setClaims(Map.of("userId",userId,"email",email,"role",role))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
