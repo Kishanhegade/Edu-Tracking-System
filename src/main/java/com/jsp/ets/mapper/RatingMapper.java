@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRequest;
 import com.jsp.ets.rating.RatingResponse;
-@Component
 
+@Component
 public class RatingMapper {
 	
 	public Rating mapToRatingEntity(RatingRequest ratingRequest, Rating rating) {

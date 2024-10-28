@@ -28,5 +28,28 @@
         </resources>
     </cache>
 
+    <cache alias="refreshtoken">
+        <key-type>java.lang.String</key-type>
+        <value-type>java.lang.Boolean</value-type>
+        <expiry>
+            <ttl unit="minutes">1441</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+            <offheap unit="MB">20</offheap>
+        </resources>
+    </cache>
+
+    <cache alias="accesstoken">
+        <key-type>java.lang.String</key-type>
+        <value-type>java.lang.Boolean</value-type>
+        <expiry>
+            <ttl unit="minutes">26</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">1000</heap>
+            <offheap unit="MB">20</offheap>
+        </resources>
+    </cache>
 
 </config>

@@ -1,30 +1,26 @@
 package com.jsp.ets.user;
 
-import jakarta.mail.MessagingException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.jsp.ets.exception.InvalidStackValueException;
+import com.jsp.ets.exception.UserNotFoundByIdException;
+import com.jsp.ets.rating.RatingResponse;
 import com.jsp.ets.security.RegistrationRequest;
 import com.jsp.ets.utility.AppResponseBuilder;
 import com.jsp.ets.utility.ErrorStructure;
 import com.jsp.ets.utility.ResponseStructure;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -167,4 +163,27 @@ public class UserController {
 		return userService.login(loginRequest);
 	}
 
+	@Operation(description = "This end point is used view the rating of the students by their respective id's",responses = {
+			@ApiResponse(responseCode = "302",description = "rating found successfully"),
+			@ApiResponse(responseCode = "404",description = "student not found by the given id",content = {@Content(schema = @Schema(anyOf = UserNotFoundByIdException.class))})})
+	@GetMapping("/students/{studentId}/ratings")
+	public ResponseEntity<ResponseStructure<List<RatingResponse>>> viewRating(@PathVariable String studentId){
+		List<RatingResponse> responses=userService.viewRating(studentId);
+		return builder.success(HttpStatus.FOUND, "found the ratings of the student", responses);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<ResponseStructure<UserResponse>> userLogin(@RequestBody LoginRequest loginRequest){
+		return userService.userLogin(loginRequest);
+	}
+
+	@PostMapping("/refresh-login")
+	public ResponseEntity<ResponseStructure<UserResponse>> refreshLogin(){
+		return userService.refreshLogin();
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<String> logout(@CookieValue(name = "rt", required = false) String rt, @CookieValue(name = "at", required = false) String at){
+		return userService.logout(at,rt);
+	}
 }

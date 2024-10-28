@@ -1,20 +1,28 @@
 package com.jsp.ets.user;
 
 
+import com.jsp.ets.cache.CacheService;
 import com.jsp.ets.exception.InvalidOtpException;
 import com.jsp.ets.exception.InvalidStackValueException;
 import com.jsp.ets.exception.RegistrationSessionExpiredException;
 import com.jsp.ets.exception.UserNotFoundByIdException;
+import com.jsp.ets.mapper.RatingMapper;
 import com.jsp.ets.mapper.UserMapper;
 import com.jsp.ets.rating.Rating;
 import com.jsp.ets.rating.RatingRepository;
+import com.jsp.ets.rating.RatingResponse;
 import com.jsp.ets.security.JwtService;
 import com.jsp.ets.security.RegistrationRequest;
+import com.jsp.ets.security.Token;
 import com.jsp.ets.utility.CacheHelper;
 import com.jsp.ets.utility.MailSenderService;
 import com.jsp.ets.utility.MessageModel;
+import com.jsp.ets.utility.ResponseStructure;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,20 +30,24 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @AllArgsConstructor
 @Service
 public class UserService {
 
-	private UserRepository userRepo;
-	private UserMapper userMapper;
-	private RatingRepository ratingRepo;
-	private MailSenderService mailSender;
-	private Random random;
-	private CacheHelper cacheHelper;
-	private JwtService jwtService;
-	private AuthenticationManager authenticationManager;
+	private final UserRepository userRepo;
+	private final UserMapper userMapper;
+	private final RatingRepository ratingRepo;
+	private final MailSenderService mailSender;
+	private final Random random;
+	private final CacheHelper cacheHelper;
+	private final JwtService jwtService;
+	private final AuthenticationManager authenticationManager;
+	private final RatingMapper ratingMapper;
+	private final Token token;
+	private final CacheService cacheService;
 	public UserResponse registerUser(RegistrationRequest registrationRequest, UserRole role) throws MessagingException {
 		User user = switch (role) {
 		case ADMIN -> new Admin();
@@ -175,19 +187,54 @@ public class UserService {
 		return userMapper.mapToStudentResponse(student);
 	}
 
-    public String login(LoginRequest loginRequest) {
-		{
-			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword());
-			Authentication authentication=authenticationManager.authenticate(authenticationToken);
-			if(authentication.isAuthenticated()) {
-				String token = userRepo.findByEmail(loginRequest.getEmail())
-						.map(user -> {
-							return jwtService.createJwt(user.getUserId(), user.getEmail(), user.getRole().name());
-
-						}).orElseThrow(()->new UsernameNotFoundException("user name not found"));
-				return token;
-			}
-			return null;
+    public ResponseEntity<ResponseStructure<UserResponse>> login(LoginRequest loginRequest) {
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		if (authentication.isAuthenticated()) {
+			return userRepo.findByEmail(loginRequest.getEmail())
+					.map(user -> {
+						HttpHeaders httpHeaders = new HttpHeaders();
+						token.grantAccessAccessToken(user, httpHeaders);
+						token.grantAccessRefreshToken(user, httpHeaders);
+						return ResponseEntity.ok().headers(httpHeaders).body(ResponseStructure.create(HttpStatus.OK.value(), "login successfulyy", userMapper.mapToUserResponse(user)));
+					}).orElseThrow(() -> new UsernameNotFoundException("user name not found"));
+		} else {
+			throw new UsernameNotFoundException("login failed");
 		}
     }
+
+    public List<RatingResponse> viewRating(String userId) {
+		return userRepo.findById(userId).map(user -> {
+			Student student = (Student) user;
+			return student.getRatings()
+					.stream()
+					.map(ratingMapper::mapToRatingResponse)
+					.toList();
+		}).orElseThrow(() -> new UserNotFoundByIdException("student is not found by the given id"));
+    }
+
+	public ResponseEntity<ResponseStructure<UserResponse>> userLogin(LoginRequest loginRequest) {
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+		Authentication authentication = authenticationManager.authenticate(authenticationToken);
+		if (authentication.isAuthenticated()) {
+			return userRepo.findByEmail(loginRequest.getEmail())
+					.map(user -> {
+						HttpHeaders httpHeaders = new HttpHeaders();
+						token.grantAccessAccessToken(user, httpHeaders);
+						token.grantAccessRefreshToken(user, httpHeaders);
+						return ResponseEntity.ok().headers(httpHeaders).body(ResponseStructure.create(HttpStatus.OK.value(), "login successfulyy", userMapper.mapToUserResponse(user)));
+					}).orElseThrow(() -> new UsernameNotFoundException("user name not found"));
+		} else {
+			throw new UsernameNotFoundException("login failed");
+		}
+	}
+
+	public ResponseEntity<String> logout(String accessToken,String refreshToken) {
+		cacheService.putCache("accesstoken",accessToken,false);
+		cacheService.putCache("refreshtoken",refreshToken,false);
+		HttpHeaders httpHeaders=new HttpHeaders();
+		httpHeaders.add(HttpHeaders.SET_COOKIE,token.createCookie("at","",0));
+		httpHeaders.add(HttpHeaders.SET_COOKIE,token.createCookie("rt","",0));
+		return ResponseEntity.ok().headers(httpHeaders).body("logout succesfully");
+	}
 }
