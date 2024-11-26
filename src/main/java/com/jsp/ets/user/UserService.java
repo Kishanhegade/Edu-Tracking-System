@@ -26,6 +26,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -222,11 +223,20 @@ public class UserService {
 						HttpHeaders httpHeaders = new HttpHeaders();
 						token.grantAccessAccessToken(user, httpHeaders);
 						token.grantAccessRefreshToken(user, httpHeaders);
-						return ResponseEntity.ok().headers(httpHeaders).body(ResponseStructure.create(HttpStatus.OK.value(), "login successfulyy", userMapper.mapToUserResponse(user)));
+						return ResponseEntity.ok().headers(httpHeaders).body(ResponseStructure.create(HttpStatus.OK.value(), "login successfull", userMapper.mapToUserResponse(user)));
 					}).orElseThrow(() -> new UsernameNotFoundException("user name not found"));
 		} else {
 			throw new UsernameNotFoundException("login failed");
 		}
+	}
+
+	public ResponseEntity<ResponseStructure<UserResponse>> refreshLogin() {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return userRepo.findByEmail(email).map(user -> {
+			HttpHeaders httpHeaders = new HttpHeaders();
+			token.grantAccessAccessToken(user, httpHeaders);
+			return ResponseEntity.ok().headers(httpHeaders).body(ResponseStructure.create(HttpStatus.OK.value(), "refresh login successfulyy", userMapper.mapToUserResponse(user)));
+		}).orElseThrow(() -> new UsernameNotFoundException("username is not found"));
 	}
 
 	public ResponseEntity<String> logout(String accessToken,String refreshToken) {
@@ -235,6 +245,6 @@ public class UserService {
 		HttpHeaders httpHeaders=new HttpHeaders();
 		httpHeaders.add(HttpHeaders.SET_COOKIE,token.createCookie("at","",0));
 		httpHeaders.add(HttpHeaders.SET_COOKIE,token.createCookie("rt","",0));
-		return ResponseEntity.ok().headers(httpHeaders).body("logout succesfully");
+		return ResponseEntity.ok().headers(httpHeaders).body("logout successfull");
 	}
 }
